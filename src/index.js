@@ -3,11 +3,14 @@ const { PrismaClient } = require('@prisma/client')
 const { GraphQLServer, PubSub } = require('graphql-yoga');
 
 const { getUserId } = require('./utils');
+
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
 const User = require('./resolvers/User');
 const Link = require('./resolvers/Link');
 const Subscription = require('./resolvers/Subscription');
+const Vote = require('./resolvers/Vote')
+
 const typeDefs = require('./typeDefs');
 const jwt = require('jsonwebtoken');
 
@@ -17,7 +20,8 @@ const resolvers = {
   Mutation,
   Subscription,
   User,
-  Link
+  Link,
+  Vote
 }
 
 const pubsub = new PubSub();
