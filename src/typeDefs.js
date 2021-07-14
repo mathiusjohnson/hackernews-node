@@ -1,7 +1,18 @@
 const typeDefs = `
 type Query {
   info: String!
-  feed: [Link!]!
+  feed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed!
+}
+
+type Feed {
+  links: [Link!]!
+  count: Int!
+}
+
+type Vote {
+  id: ID!
+  link: Link!
+  user: User!
 }
 
 type Mutation {
@@ -11,6 +22,8 @@ type Mutation {
 
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
+  vote(linkId: ID!): Vote
+
 }
 
 type Link {
@@ -18,6 +31,8 @@ type Link {
   description: String!
   url: String!
   postedBy: User
+  votes: [Vote!]!
+
 }
 
 type AuthPayload {
@@ -34,6 +49,19 @@ type User {
 
 type Subscription {
   newLink: Link
-}`
+  newVote: Vote
+}
+
+input LinkOrderByInput {
+  description: Sort
+  url: Sort
+  createdAt: Sort
+}
+
+enum Sort {
+  asc
+  desc
+}
+`
 
 module.exports = typeDefs;
